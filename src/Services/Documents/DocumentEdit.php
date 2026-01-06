@@ -1,11 +1,9 @@
-<?php namespace EvolutionCMS\DocumentManager\Services\Documents;
+<?php
+namespace EvolutionCMS\DocumentManager\Services\Documents;
 
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
-use EvolutionCMS\Interfaces\ServiceInterface;
-use EvolutionCMS\Models\DocumentGroup;
 use EvolutionCMS\Models\SiteContent;
-use EvolutionCMS\Models\SiteTmplvarTemplate;
 use EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Lang;
 
@@ -112,20 +110,20 @@ class DocumentEdit extends DocumentCreate
         }
 
         if ($this->events) {
-            // invoke OnBeforeDocFormSave event
-            EvolutionCMS()->invokeEvent("OnBeforeDocFormSave", [
+            // invoke OnBeforeDocEdit event
+            EvolutionCMS()->invokeEvent("OnBeforeDocEdit", [
                 'mode' => $this->mode,
                 'id' => $this->documentData['id'],
-                //
-                'doc' => &$this->documentData
+                'doc' => &$this->documentData,
             ]);
 
             // old event, compatibility
+            // invoke OnBeforeDocFormSave event
             EvolutionCMS()->invokeEvent("OnBeforeDocFormSave", [
                 'mode' => 'upd', // old
                 'id' => $this->documentData['id'],
                 //
-                'doc' => &$this->documentData
+                'doc' => &$this->documentData,
             ]);
         }
 
@@ -144,16 +142,17 @@ class DocumentEdit extends DocumentCreate
         $document = SiteContent::find($this->documentData['id']);
 
         if ($this->events) {
-            // invoke OnDocFormSave event
-            EvolutionCMS()->invokeEvent("OnDocFormSave", [
+            // invoke OnDocEdit event
+            EvolutionCMS()->invokeEvent("OnDocEdit", [
                 'mode' => $this->mode,
-                'id' => $this->documentData['id']
+                'id' => $this->documentData['id'],
             ]);
 
             // old event, compatibility
+            // invoke OnDocFormSave event
             EvolutionCMS()->invokeEvent("OnDocFormSave", [
                 'mode' => 'upd', // old
-                'id' => $this->documentData['id']
+                'id' => $this->documentData['id'],
             ]);
         }
 

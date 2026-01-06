@@ -1,10 +1,9 @@
-<?php namespace EvolutionCMS\DocumentManager\Services\Documents;
+<?php
+namespace EvolutionCMS\DocumentManager\Services\Documents;
 
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
-use EvolutionCMS\Interfaces\ServiceInterface;
 use EvolutionCMS\Models\SiteContent;
-use EvolutionCMS\Models\SiteTmplvarTemplate;
 use EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Lang;
 
@@ -129,7 +128,15 @@ class DocumentDelete extends DocumentCreate
         }
 
         if ($this->events) {
-            // invoke OnBeforeDocFormSave event
+            // invoke OnBeforeDocDelete event
+            EvolutionCMS()->invokeEvent("OnBeforeDocDelete", [
+                'id' => $this->documentData['id'],
+                'doc' => &$this->documentData,
+                'children' => $children,
+            ]);
+
+            // old event, compatibility
+            // invoke OnBeforeDocFormDelete event
             EvolutionCMS()->invokeEvent("OnBeforeDocFormDelete", [
                 'id' => $this->documentData['id'],
                 'doc' => &$this->documentData,
@@ -143,14 +150,21 @@ class DocumentDelete extends DocumentCreate
             ->update([
                 'deleted' => 1,
                 'deletedby' => EvolutionCMS()->getLoginUserID(),
-                'deletedon' => time()
+                'deletedon' => time(),
             ]);
 
         if ($this->events) {
-            // invoke OnDocFormSave event
+            // invoke OnDocDelete event
+            EvolutionCMS()->invokeEvent("OnDocDelete", [
+                'id' => $this->documentData['id'],
+                'children' => $children,
+            ]);
+
+            // old event, compatibility
+            // invoke OnDocFormDelete event
             EvolutionCMS()->invokeEvent("OnDocFormDelete", [
                 'id' => $this->documentData['id'],
-                'children' => $children
+                'children' => $children,
             ]);
         }
 

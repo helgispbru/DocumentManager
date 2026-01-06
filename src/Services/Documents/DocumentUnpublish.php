@@ -1,9 +1,9 @@
-<?php namespace EvolutionCMS\DocumentManager\Services\Documents;
+<?php
+namespace EvolutionCMS\DocumentManager\Services\Documents;
 
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
 use EvolutionCMS\Models\SiteContent;
-use EvolutionCMS\Models\SiteTmplvarTemplate;
 use EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Lang;
 
@@ -114,7 +114,7 @@ class DocumentUnpublish extends DocumentCreate
             // old event, deprecated
             // invoke OnBeforeDocUnpublished event
             EvolutionCMS()->invokeEvent("OnBeforeDocUnpublished", [
-                'docid' => $this->documentData['id'],
+                'docid' => $this->documentData['id'], // old
             ]);
         }
 
@@ -132,7 +132,7 @@ class DocumentUnpublish extends DocumentCreate
             // old event, deprecated
             // invoke OnDocUnpublished event
             EvolutionCMS()->invokeEvent("OnDocUnpublished", [
-                'docid' => $this->documentData['id'],
+                'docid' => $this->documentData['id'], // old
             ]);
         }
 

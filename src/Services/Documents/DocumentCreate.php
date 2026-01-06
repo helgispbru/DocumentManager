@@ -1,12 +1,12 @@
-<?php namespace EvolutionCMS\DocumentManager\Services\Documents;
+<?php
+namespace EvolutionCMS\DocumentManager\Services\Documents;
 
 use EvolutionCMS\DocumentManager\Interfaces\DocumentServiceInterface;
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
-use EvolutionCMS\Models\DocumentGroup;
 use EvolutionCMS\Models\SiteContent;
-use EvolutionCMS\Models\SiteTmplvarTemplate;
 use EvolutionCMS\Models\SiteTmplvarContentvalue;
+use EvolutionCMS\Models\SiteTmplvarTemplate;
 use EvolutionCMS\Models\User;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Cache;
@@ -79,7 +79,7 @@ class DocumentCreate implements DocumentServiceInterface
     {
         return [
             'pagetitle' => ['required'],
-            'template'  => ['required'],
+            'template' => ['required'],
         ];
     }
 
@@ -90,7 +90,7 @@ class DocumentCreate implements DocumentServiceInterface
     {
         return [
             'pagetitle.required' => Lang::get("global.required_field", ['field' => 'pagetitle']),
-            'template.required'  => Lang::get("global.required_field", ['field' => 'template']),
+            'template.required' => Lang::get("global.required_field", ['field' => 'template']),
         ];
     }
 
@@ -116,20 +116,19 @@ class DocumentCreate implements DocumentServiceInterface
         $this->prepareCreateDocument();
 
         if ($this->events) {
-            // invoke OnBeforeDocFormSave event
-            EvolutionCMS()->invokeEvent("OnBeforeDocFormSave", [
+            // invoke OnBeforeDocCreate event
+            EvolutionCMS()->invokeEvent("OnBeforeDocCreate", [
                 'mode' => $this->mode,
                 'id' => null,
-                //
-                'doc' => &$this->documentData
+                'doc' => &$this->documentData,
             ]);
 
             // old event, compatibility
+            // invoke OnBeforeDocFormSave event
             EvolutionCMS()->invokeEvent("OnBeforeDocFormSave", [
                 'mode' => 'new', // old
                 'id' => null,
-                //
-                'doc' => &$this->documentData
+                'doc' => &$this->documentData,
             ]);
         }
 
@@ -152,13 +151,14 @@ class DocumentCreate implements DocumentServiceInterface
         $this->secureMgrDocument($this->documentData['id']);
 
         if ($this->events) {
-            // invoke OnDocFormSave event
-            EvolutionCMS()->invokeEvent("OnDocFormSave", [
+            // invoke OnDocCreate event
+            EvolutionCMS()->invokeEvent("OnDocCreate", [
                 'mode' => $this->mode,
                 'id' => $this->documentData['id'],
             ]);
 
             // old event, compatibility
+            // invoke OnDocFormSave event
             EvolutionCMS()->invokeEvent("OnDocFormSave", [
                 'mode' => 'new', // old
                 'id' => $this->documentData['id'],
@@ -351,7 +351,7 @@ class DocumentCreate implements DocumentServiceInterface
             if (!is_null($this->documentData[$tmplvar->name]) && $this->documentData[$tmplvar->name] != $tmplvar->default_text) {
                 $this->tvs['save'][] = [
                     'id' => $tmplvar->id,
-                    'value' => $this->documentData[$tmplvar->name]
+                    'value' => $this->documentData[$tmplvar->name],
                 ];
             } else {
                 $this->tvs['delete'][] = $tmplvar->id;
@@ -365,9 +365,9 @@ class DocumentCreate implements DocumentServiceInterface
             foreach ($this->tvs['save'] as $value) {
                 SiteTmplvarContentvalue::updateOrCreate([
                     'contentid' => $this->documentData['id'],
-                    'tmplvarid' => $value['id']
+                    'tmplvarid' => $value['id'],
                 ], [
-                    'value' => $value['value']
+                    'value' => $value['value'],
                 ]);
             }
         }
@@ -387,8 +387,8 @@ class DocumentCreate implements DocumentServiceInterface
         // update parent folder status
         if ($parent) {
             $doc = SiteContent::query()
-                    ->withTrashed()
-                    ->find($parent);
+                ->withTrashed()
+                ->find($parent);
 
             $doc->isfolder = (int) SiteContent::query()
                 ->withTrashed()
@@ -409,14 +409,14 @@ class DocumentCreate implements DocumentServiceInterface
                 ->withTrashed()
                 ->find($docid)
                 ->update([
-                    $privateField => 0
+                    $privateField => 0,
                 ]);
         } else {
             SiteContent::query()
                 ->withTrashed()
                 ->where($privateField, 1)
                 ->update([
-                    $privateField => 0
+                    $privateField => 0,
                 ]);
         }
 
@@ -442,7 +442,7 @@ class DocumentCreate implements DocumentServiceInterface
                 ->withTrashed()
                 ->whereIn('id', $ids)
                 ->update([
-                    $privateField => 1
+                    $privateField => 1,
                 ]);
         }
     }

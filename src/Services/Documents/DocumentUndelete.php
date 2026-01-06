@@ -1,9 +1,9 @@
-<?php namespace EvolutionCMS\DocumentManager\Services\Documents;
+<?php
+namespace EvolutionCMS\DocumentManager\Services\Documents;
 
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
 use EvolutionCMS\Models\SiteContent;
-use EvolutionCMS\Models\SiteTmplvarTemplate;
 use EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Lang;
 
@@ -110,6 +110,14 @@ class DocumentUndelete extends DocumentCreate
         array_unshift($documentDeleteIds, $this->documentData['id']);
 
         if ($this->events) {
+            // invoke OnBeforeDocUndelete event
+            EvolutionCMS()->invokeEvent("OnBeforeDocUndelete", [
+                'id' => $this->documentData['id'],
+                'doc' => &$this->documentData,
+                'children' => $children,
+            ]);
+
+            // old event, compatibility
             // invoke OnBeforeDocFormUnDelete event
             EvolutionCMS()->invokeEvent("OnBeforeDocFormUnDelete", [
                 'id' => $this->documentData['id'],
@@ -123,10 +131,17 @@ class DocumentUndelete extends DocumentCreate
             ->update([
                 'deleted' => 0,
                 'deletedby' => 0,
-                'deletedon' => 0
+                'deletedon' => 0,
             ]);
 
         if ($this->events) {
+            // invoke OnDocUndelete event
+            EvolutionCMS()->invokeEvent("OnDocUndelete", [
+                'id' => $this->documentData['id'],
+                'children' => $children,
+            ]);
+
+            // old event, compatibility
             // invoke OnDocFormUnDelete event
             EvolutionCMS()->invokeEvent("OnDocFormUnDelete", [
                 'id' => $this->documentData['id'],

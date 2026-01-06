@@ -1,11 +1,10 @@
-<?php namespace EvolutionCMS\DocumentManager\Services\Documents;
+<?php
+namespace EvolutionCMS\DocumentManager\Services\Documents;
 
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
-use EvolutionCMS\Interfaces\ServiceInterface;
 use EvolutionCMS\Models\DocumentGroup;
 use EvolutionCMS\Models\SiteContent;
-use EvolutionCMS\Models\SiteTmplvarTemplate;
 use EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Lang;
 
@@ -64,7 +63,7 @@ class DocumentDuplicate extends DocumentCreate
         $this->documentData = $documentData;
         $this->events = $events;
         $this->cache = $cache;
-        $this->currentDate = EvolutionCMS()->timestamp((int)get_by_key($_SERVER, 'REQUEST_TIME', 0));
+        $this->currentDate = EvolutionCMS()->timestamp((int) get_by_key($_SERVER, 'REQUEST_TIME', 0));
     }
 
     /**
@@ -123,12 +122,12 @@ class DocumentDuplicate extends DocumentCreate
 
             $count = SiteContent::query()
                 ->withTrashed()
-                ->where('pagetitle', 'LIKE', '%' . $pagetitle . ' ' . \Lang::get('global.duplicated_el_suffix') . '%')
+                ->where('pagetitle', 'LIKE', '%' . $pagetitle . ' ' . Lang::get('global.duplicated_el_suffix') . '%')
                 ->count();
 
             $count = $count >= 1 ? ' ' . ($count + 1) : '';
 
-            $documentArray['pagetitle'] = $pagetitle . ' ' . \Lang::get('global.duplicated_el_suffix') . ' ' . $count;
+            $documentArray['pagetitle'] = $pagetitle . ' ' . Lang::get('global.duplicated_el_suffix') . $count;
             $documentArray['alias'] = null;
         } elseif (EvolutionCMS()->getConfig('friendly_urls') == 0 || EvolutionCMS()->getConfig('allow_duplicate_alias') == 0) {
             $documentArray['alias'] = null;
@@ -142,7 +141,7 @@ class DocumentDuplicate extends DocumentCreate
         if ($this->events) {
             // invoke OnBeforeDocDuplicate event
             EvolutionCMS()->invokeEvent('OnBeforeDocDuplicate', [
-                'id' => $this->documentData['id']
+                'id' => $this->documentData['id'],
             ]);
         }
 
@@ -162,7 +161,7 @@ class DocumentDuplicate extends DocumentCreate
             // invoke OnDocDuplicate event
             EvolutionCMS()->invokeEvent('OnDocDuplicate', [
                 'id' => $this->documentData['id'],
-                'new_id' => $document->getKey()
+                'new_id' => $document->getKey(),
             ]);
         }
 
@@ -177,7 +176,7 @@ class DocumentDuplicate extends DocumentCreate
             \DocumentManager::duplicate([
                 'id' => $item->id,
                 'parent' => $document->getKey(),
-                'toplevel' => 1
+                'toplevel' => 1,
             ]);
         }
 
