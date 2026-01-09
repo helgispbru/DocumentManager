@@ -110,12 +110,6 @@ class DocumentUnpublish extends DocumentCreate
             EvolutionCMS()->invokeEvent("OnBeforeDocUnpublish", [
                 'id' => $this->documentData['id'],
             ]);
-
-            // old event, deprecated
-            // invoke OnBeforeDocUnpublished event
-            EvolutionCMS()->invokeEvent("OnBeforeDocUnpublished", [
-                'docid' => $this->documentData['id'], // old
-            ]);
         }
 
         $document->published = 0;
@@ -127,12 +121,6 @@ class DocumentUnpublish extends DocumentCreate
             // invoke OnDocUnpublish event
             EvolutionCMS()->invokeEvent("OnDocUnpublish", [
                 'id' => $this->documentData['id'],
-            ]);
-
-            // old event, deprecated
-            // invoke OnDocUnpublished event
-            EvolutionCMS()->invokeEvent("OnDocUnpublished", [
-                'docid' => $this->documentData['id'], // old
             ]);
         }
 

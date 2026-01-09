@@ -1,13 +1,12 @@
-<?php namespace EvolutionCMS\DocumentManager\Services\Documents;
+<?php
+namespace EvolutionCMS\DocumentManager\Services\Documents;
 
 use EvolutionCMS\DocumentManager\Interfaces\DocumentServiceInterface;
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
-use EvolutionCMS\Interfaces\ServiceInterface;
 use EvolutionCMS\Models\DocumentGroup;
 use EvolutionCMS\Models\SiteContent;
 use EvolutionCMS\Models\SiteTmplvarContentvalue;
-use EvolutionCMS\Models\SiteTmplvarTemplate;
 use EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Lang;
 
@@ -59,7 +58,7 @@ class DocumentEmptyTrash implements DocumentServiceInterface
     public function process(): \Illuminate\Database\Eloquent\Model
     {
         if (!$this->checkRules()) {
-            throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
+            throw new ServiceActionException(Lang::get('global.error_no_privileges'));
         }
 
         if (!$this->validate()) {
@@ -77,7 +76,7 @@ class DocumentEmptyTrash implements DocumentServiceInterface
         if ($this->events) {
             // invoke OnBeforeEmptyTrash event
             EvolutionCMS()->invokeEvent("OnBeforeEmptyTrash", [
-                "ids" => $ids
+                'ids' => $ids,
             ]);
         }
 
@@ -91,15 +90,16 @@ class DocumentEmptyTrash implements DocumentServiceInterface
             ->whereIn('contentid', $ids)
             ->delete();
 
-        //'undelete' the document.
-        SiteContent::query()->withTrashed()
+        // 'undelete' the document.
+        SiteContent::query()
+            ->withTrashed()
             ->where('deleted', 1)
             ->forceDelete();
 
         if ($this->events) {
             // invoke OnEmptyTrash event
             EvolutionCMS()->invokeEvent("OnEmptyTrash", [
-                "ids" => $ids
+                'ids' => $ids,
             ]);
         }
 

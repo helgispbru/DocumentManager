@@ -116,14 +116,6 @@ class DocumentUndelete extends DocumentCreate
                 'doc' => &$this->documentData,
                 'children' => $children,
             ]);
-
-            // old event, compatibility
-            // invoke OnBeforeDocFormUnDelete event
-            EvolutionCMS()->invokeEvent("OnBeforeDocFormUnDelete", [
-                'id' => $this->documentData['id'],
-                'doc' => &$this->documentData,
-                'children' => $children,
-            ]);
         }
 
         SiteContent::withTrashed()
@@ -137,13 +129,6 @@ class DocumentUndelete extends DocumentCreate
         if ($this->events) {
             // invoke OnDocUndelete event
             EvolutionCMS()->invokeEvent("OnDocUndelete", [
-                'id' => $this->documentData['id'],
-                'children' => $children,
-            ]);
-
-            // old event, compatibility
-            // invoke OnDocFormUnDelete event
-            EvolutionCMS()->invokeEvent("OnDocFormUnDelete", [
                 'id' => $this->documentData['id'],
                 'children' => $children,
             ]);

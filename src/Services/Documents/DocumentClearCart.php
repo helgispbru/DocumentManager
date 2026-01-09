@@ -1,12 +1,11 @@
-<?php namespace EvolutionCMS\DocumentManager\Services\Documents;
+<?php
+namespace EvolutionCMS\DocumentManager\Services\Documents;
 
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
-use EvolutionCMS\Interfaces\ServiceInterface;
 use EvolutionCMS\Models\DocumentGroup;
 use EvolutionCMS\Models\SiteContent;
 use EvolutionCMS\Models\SiteTmplvarContentvalue;
-use EvolutionCMS\Models\SiteTmplvarTemplate;
 use EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Lang;
 
@@ -72,8 +71,7 @@ class DocumentClearCart extends DocumentCreate
      */
     public function getValidationRules(): array
     {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -81,8 +79,7 @@ class DocumentClearCart extends DocumentCreate
      */
     public function getValidationMessages(): array
     {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -111,9 +108,10 @@ class DocumentClearCart extends DocumentCreate
         if ($this->events) {
             // invoke OnBeforeEmptyTrash event
             EvolutionCMS()->invokeEvent("OnBeforeEmptyTrash", [
-                'ids' => $ids
+                'ids' => $ids,
             ]);
         }
+
         // remove the document groups link.
         DocumentGroup::query()
             ->whereIn('document', $ids)
@@ -130,10 +128,10 @@ class DocumentClearCart extends DocumentCreate
             ->where('deleted', 1)
             ->forceDelete();
 
-        // invoke OnEmptyTrash event
         if ($this->events) {
+            // invoke OnEmptyTrash event
             EvolutionCMS()->invokeEvent("OnEmptyTrash", [
-                'ids' => $ids
+                'ids' => $ids,
             ]);
         }
 
@@ -141,9 +139,11 @@ class DocumentClearCart extends DocumentCreate
             EvolutionCMS()->clearCache('full');
         }
 
-        return SiteContent::query()
+        $document = SiteContent::query()
             ->withTrashed()
             ->first();
+
+        return $document;
     }
 
     /**

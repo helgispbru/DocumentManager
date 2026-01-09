@@ -104,7 +104,6 @@ class DocumentSetGroups extends DocumentCreate
 
         $new_groups = [];
         // process the new input
-
         foreach ($this->documentData['document_groups'] as $group) {
             $new_groups[$group] = $this->documentData['id'];
         }
@@ -118,6 +117,14 @@ class DocumentSetGroups extends DocumentCreate
         $old_groups = [];
         foreach ($documentGroups as $documentGroup) {
             $old_groups[$documentGroup->document_group] = $documentGroup->id;
+        }
+
+        if ($this->events) {
+            // invoke OnBeforeDocSetGroups event
+            EvolutionCMS()->invokeEvent("OnBeforeDocSetGroups", [
+                'id' => $this->documentData['id'],
+                'groups' => $this->documentData['document_groups'],
+            ]);
         }
 
         // update the permissions in the database
@@ -139,13 +146,22 @@ class DocumentSetGroups extends DocumentCreate
                 ->delete();
         }
 
+        if ($this->events) {
+            // invoke OnDocSetGroups event
+            EvolutionCMS()->invokeEvent("OnDocSetGroups", [
+                'id' => $this->documentData['id'],
+            ]);
+        }
+
         if ($this->cache) {
             EvolutionCMS()->clearCache('full');
         }
 
-        return SiteContent::query()
+        $document = SiteContent::query()
             ->withTrashed()
             ->find($this->documentData['id']);
+
+        return $document;
     }
 
     /**

@@ -49,6 +49,9 @@ class DocumentEdit extends DocumentCreate
      */
     public $tvs = [];
 
+    /**
+     * @var string
+     */
     protected $mode = 'edit';
 
     /**
@@ -112,17 +115,7 @@ class DocumentEdit extends DocumentCreate
         if ($this->events) {
             // invoke OnBeforeDocEdit event
             EvolutionCMS()->invokeEvent("OnBeforeDocEdit", [
-                'mode' => $this->mode,
                 'id' => $this->documentData['id'],
-                'doc' => &$this->documentData,
-            ]);
-
-            // old event, compatibility
-            // invoke OnBeforeDocFormSave event
-            EvolutionCMS()->invokeEvent("OnBeforeDocFormSave", [
-                'mode' => 'upd', // old
-                'id' => $this->documentData['id'],
-                //
                 'doc' => &$this->documentData,
             ]);
         }
@@ -144,14 +137,6 @@ class DocumentEdit extends DocumentCreate
         if ($this->events) {
             // invoke OnDocEdit event
             EvolutionCMS()->invokeEvent("OnDocEdit", [
-                'mode' => $this->mode,
-                'id' => $this->documentData['id'],
-            ]);
-
-            // old event, compatibility
-            // invoke OnDocFormSave event
-            EvolutionCMS()->invokeEvent("OnDocFormSave", [
-                'mode' => 'upd', // old
                 'id' => $this->documentData['id'],
             ]);
         }

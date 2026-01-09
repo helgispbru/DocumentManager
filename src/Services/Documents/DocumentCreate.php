@@ -54,6 +54,9 @@ class DocumentCreate implements DocumentServiceInterface
      */
     public $tvs = [];
 
+    /**
+     * @var string
+     */
     protected $mode = 'create';
 
     /**
@@ -118,15 +121,6 @@ class DocumentCreate implements DocumentServiceInterface
         if ($this->events) {
             // invoke OnBeforeDocCreate event
             EvolutionCMS()->invokeEvent("OnBeforeDocCreate", [
-                'mode' => $this->mode,
-                'id' => null,
-                'doc' => &$this->documentData,
-            ]);
-
-            // old event, compatibility
-            // invoke OnBeforeDocFormSave event
-            EvolutionCMS()->invokeEvent("OnBeforeDocFormSave", [
-                'mode' => 'new', // old
                 'id' => null,
                 'doc' => &$this->documentData,
             ]);
@@ -153,14 +147,6 @@ class DocumentCreate implements DocumentServiceInterface
         if ($this->events) {
             // invoke OnDocCreate event
             EvolutionCMS()->invokeEvent("OnDocCreate", [
-                'mode' => $this->mode,
-                'id' => $this->documentData['id'],
-            ]);
-
-            // old event, compatibility
-            // invoke OnDocFormSave event
-            EvolutionCMS()->invokeEvent("OnDocFormSave", [
-                'mode' => 'new', // old
                 'id' => $this->documentData['id'],
             ]);
         }

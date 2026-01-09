@@ -1,10 +1,9 @@
-<?php namespace EvolutionCMS\DocumentManager\Services\Documents;
+<?php
+namespace EvolutionCMS\DocumentManager\Services\Documents;
 
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
-use EvolutionCMS\Interfaces\ServiceInterface;
 use EvolutionCMS\Models\SiteContent;
-use EvolutionCMS\Models\SiteTmplvarTemplate;
 use EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Lang;
 
@@ -111,12 +110,6 @@ class DocumentPublish extends DocumentCreate
             EvolutionCMS()->invokeEvent("OnBeforeDocPublish", [
                 'id' => $this->documentData['id'],
             ]);
-
-            // old event, deprecated
-            // invoke OnBeforeDocPublished event
-            EvolutionCMS()->invokeEvent("OnBeforeDocPublished", [
-                'docid' => $this->documentData['id'],
-            ]);
         }
 
         $document->published = 1;
@@ -128,12 +121,6 @@ class DocumentPublish extends DocumentCreate
             // invoke OnDocPublish event
             EvolutionCMS()->invokeEvent("OnDocPublish", [
                 'id' => $this->documentData['id'],
-            ]);
-
-            // old event, deprecated
-            // invoke OnDocPublished event
-            EvolutionCMS()->invokeEvent("OnDocPublished", [
-                'docid' => $this->documentData['id'],
             ]);
         }
 
