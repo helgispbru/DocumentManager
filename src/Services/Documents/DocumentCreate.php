@@ -122,7 +122,7 @@ class DocumentCreate implements DocumentServiceInterface
             // invoke OnBeforeDocCreate event
             EvolutionCMS()->invokeEvent("OnBeforeDocCreate", [
                 'id' => null,
-                'doc' => &$this->documentData,
+                'documentData' => &$this->documentData,
             ]);
         }
 
@@ -148,6 +148,7 @@ class DocumentCreate implements DocumentServiceInterface
             // invoke OnDocCreate event
             EvolutionCMS()->invokeEvent("OnDocCreate", [
                 'id' => $this->documentData['id'],
+                'document' => $document,
             ]);
         }
 

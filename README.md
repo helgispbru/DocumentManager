@@ -78,15 +78,16 @@ SiteContent \DocumentManager::create(
 
 #### События
 
-| событие             | передается                       |
-| ------------------- | -------------------------------- |
-| `OnBeforeDocCreate` | [ `id` => null, `doc` => &$doc ] |
-| `OnDocCreate`       | [ `id` => $id ]                  |
+| событие             | передается                                 |
+| ------------------- | ------------------------------------------ |
+| `OnBeforeDocCreate` | [ `id` => null, `documentData` => &$data ] |
+| `OnDocCreate`       | [ `id` => $id, `document` => $document ]   |
 
 Параметры:
 
-- `$id` - id создаваемого документа
-- `$doc` - указатель на массив с данными документа
+- `$id` - id созданного документа
+- `$data` - указатель на массив с данными создаваемого документа
+- `$document` - модель созданного документа
 
 #### Пример создания документа
 
@@ -138,15 +139,17 @@ SiteContent \DocumentManager::edit(
 
 #### События
 
-| событие           | передается                      |
-| ----------------- | ------------------------------- |
-| `OnBeforeDocEdit` | [ `id` => $id, `doc` => &$doc ] |
-| `OnDocEdit`       | [ `id` => $id ]                 |
+| событие           | передается                                                                |
+| ----------------- | ------------------------------------------------------------------------- |
+| `OnBeforeDocEdit` | [ `id` => $id, `documentData` => &$data, `document` => $document_before ] |
+| `OnDocEdit`       | [ `id` => $id, `document` => $document_after ]                            |
 
 Параметры:
 
 - `$id` - id редактируемого документа
 - `$doc` - указатель на массив с данными документа
+- `$document_before` - модель документа до редактирования
+- `$document_after` - модель документа после редактирования
 
 #### Пример редактирования документа
 
@@ -198,15 +201,16 @@ SiteContent \DocumentManager::delete(
 
 #### События
 
-| событие             | передается                                               |
-| ------------------- | -------------------------------------------------------- |
-| `OnBeforeDocDelete` | [ `id` => $id, `doc` => &$doc, `children` => $children ] |
-| `OnDocDelete`       | [ `id` => $id, `children` => $children ]                 |
+| событие             | передается                                                               |
+| ------------------- | ------------------------------------------------------------------------ |
+| `OnBeforeDocDelete` | [ `id` => $id, `document` => $document_before, `children` => $children ] |
+| `OnDocDelete`       | [ `id` => $id, `document` => $document_after, `children` => $children ]  |
 
 Параметры:
 
 - `$id` - id удаляемого документа
-- `$doc` - указатель на массив с данными документа
+- `$document_before` - модель удаляемого документа до удаления
+- `$document_after` - модель удаляемого документа после удаления
 - `$children` - id дочерних удаляемых документов
 
 #### Пример удаления документа
@@ -257,15 +261,16 @@ SiteContent \DocumentManager::undelete(
 
 #### События
 
-| событие               | передается                                               |
-| --------------------- | -------------------------------------------------------- |
-| `OnBeforeDocUndelete` | [ `id` => $id, `doc` => &$doc, `children` => $children ] |
-| `OnDocUndelete`       | [ `id` => $id, `children` => $children ]                 |
+| событие               | передается                                                               |
+| --------------------- | ------------------------------------------------------------------------ |
+| `OnBeforeDocUndelete` | [ `id` => $id, `document` => $document_before, `children` => $children ] |
+| `OnDocUndelete`       | [ `id` => $id, `document` => $document_after, `children` => $children ]  |
 
 Параметры:
 
 - `$id` - id восстанавлиемого документа
-- `$doc` - указатель на массив с данными документа
+- `$document_before` - модель документа до восстановления
+- `$document_after` - модель документа после восстановления
 - `$children` - id дочерних восстанавливаемых документов
 
 #### Пример восстановления удалённого документа
@@ -316,15 +321,17 @@ SiteContent \DocumentManager::duplicate(
 
 #### События
 
-| событие                | передается                           |
-| ---------------------- | ------------------------------------ |
-| `OnBeforeDocDuplicate` | [ `id` => $id ]                      |
-| `OnDocDuplicate`       | [ `id` => $id, `new_id` => $new_id ] |
+| событие                | передается                                                       |
+| ---------------------- | ---------------------------------------------------------------- |
+| `OnBeforeDocDuplicate` | [ `id` => $id, `document` => $document ]                         |
+| `OnDocDuplicate`       | [ `id` => $id, `new_id` => $new_id, `new_doc` => $new_document ] |
 
 Параметры:
 
 - `$id` - id дублируемого документа
+- `$document` - модель дублируемого документа
 - `$new_id` - id созданного нового документа
+- `$new_document` - модель созданного документа
 
 #### Пример дублирования документа
 
@@ -374,15 +381,16 @@ SiteContent \DocumentManager::setGroups(
 
 #### События
 
-| событие                | передается                           |
-| ---------------------- | ------------------------------------ |
-| `OnBeforeDocSetGroups` | [ `id` => $id, `groups` => $groups ] |
-| `OnDocSetGroups`       | [ `id` => $id, ]                     |
+| событие                | передается                                                    |
+| ---------------------- | ------------------------------------------------------------- |
+| `OnBeforeDocSetGroups` | [ `id` => $id, `groups` => $groups, `document` => $document ] |
+| `OnDocSetGroups`       | [ `id` => $id, `document` => $document ]                      |
 
 Параметры:
 
 - `$id` - id редактируемого документа
 - `$groups` - список id групп документа
+- `$document` - модель документа
 
 #### Пример назначения группы документов
 
@@ -433,14 +441,16 @@ SiteContent \DocumentManager::publish(
 
 #### События
 
-| событие              | передается      |
-| -------------------- | --------------- |
-| `OnBeforeDocPublish` | [ `id` => $id ] |
-| `OnDocPublish`       | [ `id` => $id ] |
+| событие              | передается                                      |
+| -------------------- | ----------------------------------------------- |
+| `OnBeforeDocPublish` | [ `id` => $id, `document` => $document_before ] |
+| `OnDocPublish`       | [ `id` => $id, `document` => $document_after ]  |
 
 Параметры:
 
 - `$id` - id публикуемого документа
+- `$document_before` - модель публикуемого документа до публикации
+- `$document_after` - модель публикуемого документа после публикации
 
 #### Пример публикации документа
 
@@ -490,14 +500,16 @@ SiteContent \DocumentManager::unpublish(
 
 #### События
 
-| событие                | передается      |
-| ---------------------- | --------------- |
-| `OnBeforeDocUnpublish` | [ `id` => $id ] |
-| `OnDocUnpublish`       | [ `id` => $id ] |
+| событие                | передается                                      |
+| ---------------------- | ----------------------------------------------- |
+| `OnBeforeDocUnpublish` | [ `id` => $id, `document` => $document_before ] |
+| `OnDocUnpublish`       | [ `id` => $id, `document` => $document_after ]  |
 
 Параметры:
 
 - `$id` - id документа, снимаемого с публикации
+- `$document_before` - модель публикуемого документа до снятия с публикации
+- `$document_after` - модель публикуемого документа после снятия с публикации публикации
 
 #### Пример снятия с публикации документа
 

@@ -109,6 +109,7 @@ class DocumentPublish extends DocumentCreate
             // invoke OnBeforeDocPublish event
             EvolutionCMS()->invokeEvent("OnBeforeDocPublish", [
                 'id' => $this->documentData['id'],
+                'document' => $document,
             ]);
         }
 
@@ -121,6 +122,7 @@ class DocumentPublish extends DocumentCreate
             // invoke OnDocPublish event
             EvolutionCMS()->invokeEvent("OnDocPublish", [
                 'id' => $this->documentData['id'],
+                'document' => $document,
             ]);
         }
 

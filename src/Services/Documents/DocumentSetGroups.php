@@ -119,11 +119,16 @@ class DocumentSetGroups extends DocumentCreate
             $old_groups[$documentGroup->document_group] = $documentGroup->id;
         }
 
+        $document = SiteContent::query()
+            ->withTrashed()
+            ->find($this->documentData['id']);
+
         if ($this->events) {
             // invoke OnBeforeDocSetGroups event
             EvolutionCMS()->invokeEvent("OnBeforeDocSetGroups", [
                 'id' => $this->documentData['id'],
                 'groups' => $this->documentData['document_groups'],
+                'document' => $document,
             ]);
         }
 
@@ -150,6 +155,7 @@ class DocumentSetGroups extends DocumentCreate
             // invoke OnDocSetGroups event
             EvolutionCMS()->invokeEvent("OnDocSetGroups", [
                 'id' => $this->documentData['id'],
+                'document' => $document,
             ]);
         }
 

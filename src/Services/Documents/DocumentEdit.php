@@ -107,6 +107,8 @@ class DocumentEdit extends DocumentCreate
             throw $exception;
         }
 
+        $document = SiteContent::find($this->documentData['id']);
+
         $this->prepareDocument();
         if (isset($this->documentData['pagetitle'])) {
             $this->prepareAliasDocument();
@@ -116,7 +118,8 @@ class DocumentEdit extends DocumentCreate
             // invoke OnBeforeDocEdit event
             EvolutionCMS()->invokeEvent("OnBeforeDocEdit", [
                 'id' => $this->documentData['id'],
-                'doc' => &$this->documentData,
+                'documentData' => &$this->documentData,
+                'document' => $document,
             ]);
         }
 
@@ -132,12 +135,15 @@ class DocumentEdit extends DocumentCreate
         $this->secureWebDocument($this->documentData['id']);
         $this->secureMgrDocument($this->documentData['id']);
 
-        $document = SiteContent::find($this->documentData['id']);
+        $document = SiteContent::query()
+            ->withTrashed()
+            ->find($this->documentData['id']);
 
         if ($this->events) {
             // invoke OnDocEdit event
             EvolutionCMS()->invokeEvent("OnDocEdit", [
                 'id' => $this->documentData['id'],
+                'document' => $document,
             ]);
         }
 

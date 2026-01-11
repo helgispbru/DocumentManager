@@ -109,6 +109,7 @@ class DocumentUnpublish extends DocumentCreate
             // invoke OnBeforeDocUnpublish event
             EvolutionCMS()->invokeEvent("OnBeforeDocUnpublish", [
                 'id' => $this->documentData['id'],
+                'document' => $document,
             ]);
         }
 
@@ -121,6 +122,7 @@ class DocumentUnpublish extends DocumentCreate
             // invoke OnDocUnpublish event
             EvolutionCMS()->invokeEvent("OnDocUnpublish", [
                 'id' => $this->documentData['id'],
+                'document' => $document,
             ]);
         }
 
