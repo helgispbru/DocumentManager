@@ -118,6 +118,8 @@ class DocumentPublish extends DocumentCreate
         $document->publishedon = time();
         $document->save();
 
+        $document->refresh();
+
         if ($this->events) {
             // invoke OnDocPublish event
             EvolutionCMS()->invokeEvent("OnDocPublish", [
@@ -139,15 +141,5 @@ class DocumentPublish extends DocumentCreate
     public function checkRules(): bool
     {
         return EvolutionCMS()->hasPermission('publish_document');
-    }
-
-    /**
-     * @return bool
-     */
-    public function validate(): bool
-    {
-        $validator = \Validator::make($this->documentData, $this->validate, $this->messages);
-        $this->validateErrors = $validator->errors()->toArray();
-        return !$validator->fails();
     }
 }

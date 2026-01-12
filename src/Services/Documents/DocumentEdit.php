@@ -107,7 +107,9 @@ class DocumentEdit extends DocumentCreate
             throw $exception;
         }
 
-        $document = SiteContent::find($this->documentData['id']);
+        $document = SiteContent::query()
+            ->withTrashed()
+            ->find($this->documentData['id']);
 
         $this->prepareDocument();
         if (isset($this->documentData['pagetitle'])) {
@@ -135,9 +137,7 @@ class DocumentEdit extends DocumentCreate
         $this->secureWebDocument($this->documentData['id']);
         $this->secureMgrDocument($this->documentData['id']);
 
-        $document = SiteContent::query()
-            ->withTrashed()
-            ->find($this->documentData['id']);
+        $document->refresh();
 
         if ($this->events) {
             // invoke OnDocEdit event
@@ -161,17 +161,7 @@ class DocumentEdit extends DocumentCreate
      */
     public function checkRules(): bool
     {
-        return true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function validate(): bool
-    {
-        $validator = \Validator::make($this->documentData, $this->validate, $this->messages);
-        $this->validateErrors = $validator->errors()->toArray();
-        return !$validator->fails();
+        return EvolutionCMS()->hasPermission('new_document');
     }
 
     public function prepareDocument()

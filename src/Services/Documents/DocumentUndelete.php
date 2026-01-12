@@ -126,9 +126,7 @@ class DocumentUndelete extends DocumentCreate
                 'deletedon' => 0,
             ]);
 
-        $document = SiteContent::query()
-            ->withTrashed()
-            ->find($this->documentData['id']);
+        $document->refresh();
 
         if ($this->events) {
             // invoke OnDocUndelete event
@@ -151,16 +149,6 @@ class DocumentUndelete extends DocumentCreate
      */
     public function checkRules(): bool
     {
-        return true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function validate(): bool
-    {
-        $validator = \Validator::make($this->documentData, $this->validate, $this->messages);
-        $this->validateErrors = $validator->errors()->toArray();
-        return !$validator->fails();
+        return EvolutionCMS()->hasPermission('delete_document');
     }
 }

@@ -148,14 +148,17 @@ class DocumentDuplicate extends DocumentCreate
 
         $document = \DocumentManager::create($documentArray);
 
+        // get document groups of src
         $oldDocGroups = DocumentGroup::query()
             ->where('document', $this->documentData['id'])
             ->get();
 
+        // apply to newly created doc
         foreach ($oldDocGroups->toArray() as $oldDocGroup) {
             unset($oldDocGroup['id']);
             $oldDocGroup['document'] = $document->getKey();
-            DocumentGroup::query()->insert($oldDocGroup);
+            DocumentGroup::query()
+                ->insert($oldDocGroup);
         }
 
         if ($this->events) {
@@ -194,16 +197,6 @@ class DocumentDuplicate extends DocumentCreate
      */
     public function checkRules(): bool
     {
-        return true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function validate(): bool
-    {
-        $validator = \Validator::make($this->documentData, $this->validate, $this->messages);
-        $this->validateErrors = $validator->errors()->toArray();
-        return !$validator->fails();
+        return EvolutionCMS()->hasPermission('new_document');
     }
 }

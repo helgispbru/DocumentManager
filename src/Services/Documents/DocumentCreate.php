@@ -144,6 +144,8 @@ class DocumentCreate implements DocumentServiceInterface
         $this->secureWebDocument($this->documentData['id']);
         $this->secureMgrDocument($this->documentData['id']);
 
+        $document->refresh();
+
         if ($this->events) {
             // invoke OnDocCreate event
             EvolutionCMS()->invokeEvent("OnDocCreate", [
@@ -166,7 +168,7 @@ class DocumentCreate implements DocumentServiceInterface
      */
     public function checkRules(): bool
     {
-        return true;
+        return EvolutionCMS()->hasPermission('new_document');
     }
 
     /**

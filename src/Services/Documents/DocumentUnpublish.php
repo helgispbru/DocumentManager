@@ -140,14 +140,4 @@ class DocumentUnpublish extends DocumentCreate
     {
         return EvolutionCMS()->hasPermission('publish_document');
     }
-
-    /**
-     * @return bool
-     */
-    public function validate(): bool
-    {
-        $validator = \Validator::make($this->documentData, $this->validate, $this->messages);
-        $this->validateErrors = $validator->errors()->toArray();
-        return !$validator->fails();
-    }
 }

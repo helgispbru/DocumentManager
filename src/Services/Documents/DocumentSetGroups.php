@@ -92,7 +92,9 @@ class DocumentSetGroups extends DocumentCreate
      */
     public function process(): \Illuminate\Database\Eloquent\Model
     {
-        if (!$this->checkRules()) {
+        $check_permissions = (bool) $this->documentData['check_permissions'] ?? true;
+
+        if ($check_permissions && !$this->checkRules()) {
             throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
         }
 
@@ -100,23 +102,6 @@ class DocumentSetGroups extends DocumentCreate
             $exception = new ServiceValidationException();
             $exception->setValidationErrors($this->validateErrors);
             throw $exception;
-        }
-
-        $new_groups = [];
-        // process the new input
-        foreach ($this->documentData['document_groups'] as $group) {
-            $new_groups[$group] = $this->documentData['id'];
-        }
-
-        // grab the current set of permissions on this document the user can access
-        $documentGroups = DocumentGroup::query()
-            ->select('id', 'document_group')
-            ->where('document', $this->documentData['id'])
-            ->get();
-
-        $old_groups = [];
-        foreach ($documentGroups as $documentGroup) {
-            $old_groups[$documentGroup->document_group] = $documentGroup->id;
         }
 
         $document = SiteContent::query()
@@ -132,24 +117,53 @@ class DocumentSetGroups extends DocumentCreate
             ]);
         }
 
-        // update the permissions in the database
-        $insertions = [];
-        foreach ($new_groups as $group => $link_id) {
-            if (array_key_exists($group, $old_groups)) {
-                unset($old_groups[$group]);
-            } else {
-                $insertions[] = ['document_group' => (int) $group, 'document' => $this->documentData['id']];
+        if (empty($this->documentData['document_groups'])) {
+            // necessary to remove all permissions as document is public
+            DocumentGroup::query()
+                ->whereIn('document', $this->documentData['id'])
+                ->delete();
+        } else {
+            $new_groups = [];
+            // process the new input
+            foreach ($this->documentData['document_groups'] as $group) {
+                $new_groups[$group] = $this->documentData['id'];
+            }
+
+            // grab the current set of permissions on this document
+            $documentGroups = DocumentGroup::query()
+                ->select('id', 'document_group')
+                ->where('document', $this->documentData['id'])
+                ->get();
+
+            $old_groups = [];
+            foreach ($documentGroups as $documentGroup) {
+                $old_groups[$documentGroup->document_group] = $documentGroup->id;
+            }
+
+            // update the permissions in the database
+            $insertions = [];
+            foreach ($new_groups as $group => $link_id) {
+                if (array_key_exists($group, $old_groups)) {
+                    unset($old_groups[$group]);
+                } else {
+                    $insertions[] = [
+                        'document_group' => (int) $group,
+                        'document' => $this->documentData['id'],
+                    ];
+                }
+            }
+            if (!empty($insertions)) {
+                DocumentGroup::query()
+                    ->insert($insertions);
+            }
+            if (!empty($old_groups)) {
+                DocumentGroup::query()
+                    ->whereIn('id', $old_groups)
+                    ->delete();
             }
         }
-        if (!empty($insertions)) {
-            DocumentGroup::query()
-                ->insert($insertions);
-        }
-        if (!empty($old_groups)) {
-            DocumentGroup::query()
-                ->whereIn('id', $old_groups)
-                ->delete();
-        }
+
+        $document->refresh();
 
         if ($this->events) {
             // invoke OnDocSetGroups event
@@ -163,10 +177,6 @@ class DocumentSetGroups extends DocumentCreate
             EvolutionCMS()->clearCache('full');
         }
 
-        $document = SiteContent::query()
-            ->withTrashed()
-            ->find($this->documentData['id']);
-
         return $document;
     }
 
@@ -175,16 +185,6 @@ class DocumentSetGroups extends DocumentCreate
      */
     public function checkRules(): bool
     {
-        return true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function validate(): bool
-    {
-        $validator = \Validator::make($this->documentData, $this->validate, $this->messages);
-        $this->validateErrors = $validator->errors()->toArray();
-        return !$validator->fails();
+        return EvolutionCMS()->hasAnyPermissions(['manage_groups', 'manage_document_permissions']);
     }
 }
