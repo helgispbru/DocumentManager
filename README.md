@@ -147,7 +147,7 @@ SiteContent \DocumentManager::edit(
 Параметры:
 
 - `$id` - id редактируемого документа
-- `$doc` - указатель на массив с данными документа
+- `$data` - указатель на массив с данными документа
 - `$document_before` - модель документа до редактирования
 - `$document_after` - модель документа после редактирования
 
@@ -532,7 +532,7 @@ try {
 
 ```php
 SiteContent \DocumentManager::clearCart(
-    array $documentData => [],
+    array $documentData = [],
     bool $events = true,
     bool $cache = true
 )
