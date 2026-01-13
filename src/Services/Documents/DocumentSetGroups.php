@@ -120,7 +120,7 @@ class DocumentSetGroups extends DocumentCreate
         if (empty($this->documentData['document_groups'])) {
             // necessary to remove all permissions as document is public
             DocumentGroup::query()
-                ->whereIn('document', $this->documentData['id'])
+                ->where('document', $this->documentData['id'])
                 ->delete();
         } else {
             $new_groups = [];
