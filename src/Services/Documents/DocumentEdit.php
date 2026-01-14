@@ -210,8 +210,9 @@ class DocumentEdit extends DocumentCreate
             $this->documentData['isfolder'] = 1;
         }
 
-        // not in active parent = deleted
-        if ($this->documentData['parent'] > 0 && empty(SiteContent::find($this->documentData['parent']))) {
+        // not in active parent = deleted child
+        $parentDeleted = $this->documentData['parent'] > 0 && empty(SiteContent::find($this->documentData['parent']));
+        if ($parentDeleted) {
             $resourceArray['deleted'] = 1;
         }
 

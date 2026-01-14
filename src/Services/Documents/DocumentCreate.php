@@ -191,7 +191,8 @@ class DocumentCreate implements DocumentServiceInterface
             $this->documentData['id'] = false;
         }
 
-        $parentDeleted = $this->documentData['parent'] > 0 && empty(SiteContent::find($parentId));
+        // not in active parent = deleted child
+        $parentDeleted = $this->documentData['parent'] > 0 && empty(SiteContent::find($this->documentData['parent']));
         if ($parentDeleted) {
             $this->documentData['deleted'] = 1;
         }
