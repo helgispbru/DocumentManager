@@ -321,17 +321,17 @@ SiteContent \DocumentManager::duplicate(
 
 #### События
 
-| событие                | передается                                                       |
-| ---------------------- | ---------------------------------------------------------------- |
-| `OnBeforeDocDuplicate` | [ `id` => $id, `document` => $document ]                         |
-| `OnDocDuplicate`       | [ `id` => $id, `new_id` => $new_id, `new_doc` => $new_document ] |
+| событие                | передается                                                            |
+| ---------------------- | --------------------------------------------------------------------- |
+| `OnBeforeDocDuplicate` | [ `id` => $id, `document` => $document ]                              |
+| `OnDocDuplicate`       | [ `id` => $id, `new_id` => $new_id, `new_document` => $new_document ] |
 
 Параметры:
 
 - `$id` - id дублируемого документа
 - `$document` - модель дублируемого документа
 - `$new_id` - id созданного нового документа
-- `$new_document` - модель созданного документа
+- `$new_document` - модель созданного нового документа
 
 #### Пример дублирования документа
 

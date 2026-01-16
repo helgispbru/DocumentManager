@@ -166,7 +166,7 @@ class DocumentDuplicate extends DocumentCreate
             EvolutionCMS()->invokeEvent('OnDocDuplicate', [
                 'id' => $this->documentData['id'],
                 'new_id' => $document->getKey(),
-                'new_doc' => $document,
+                'new_document' => $document,
             ]);
         }
 
