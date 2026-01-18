@@ -71,10 +71,10 @@ SiteContent \DocumentManager::create(
 
 #### Исключения
 
-| исключение                                            | описание                                         |
-| ----------------------------------------------------- | ------------------------------------------------ |
-| `\EvolutionCMS\Exceptions\ServiceValidationException` | если переданы плохие данные в `$documentData`    |
-| `\EvolutionCMS\Exceptions\ServiceActionException`     | если возникла ошибка в процессе обработки данных |
+| исключение                                            | описание                                    |
+| ----------------------------------------------------- | ------------------------------------------- |
+| `\EvolutionCMS\Exceptions\ServiceValidationException` | переданы плохие данные в `$documentData`    |
+| `\EvolutionCMS\Exceptions\ServiceActionException`     | возникла ошибка в процессе обработки данных |
 
 #### События
 
@@ -132,10 +132,10 @@ SiteContent \DocumentManager::edit(
 
 #### Исключения
 
-| исключение                                            | описание                                         |
-| ----------------------------------------------------- | ------------------------------------------------ |
-| `\EvolutionCMS\Exceptions\ServiceValidationException` | если переданы плохие данные в `$documentData`    |
-| `\EvolutionCMS\Exceptions\ServiceActionException`     | если возникла ошибка в процессе обработки данных |
+| исключение                                            | описание                                    |
+| ----------------------------------------------------- | ------------------------------------------- |
+| `\EvolutionCMS\Exceptions\ServiceValidationException` | переданы плохие данные в `$documentData`    |
+| `\EvolutionCMS\Exceptions\ServiceActionException`     | возникла ошибка в процессе обработки данных |
 
 #### События
 
@@ -194,10 +194,10 @@ SiteContent \DocumentManager::delete(
 
 #### Исключения
 
-| исключение                                            | описание                                         |
-| ----------------------------------------------------- | ------------------------------------------------ |
-| `\EvolutionCMS\Exceptions\ServiceValidationException` | если переданы плохие данные в `$documentData`    |
-| `\EvolutionCMS\Exceptions\ServiceActionException`     | если возникла ошибка в процессе обработки данных |
+| исключение                                            | описание                                    |
+| ----------------------------------------------------- | ------------------------------------------- |
+| `\EvolutionCMS\Exceptions\ServiceValidationException` | переданы плохие данные в `$documentData`    |
+| `\EvolutionCMS\Exceptions\ServiceActionException`     | возникла ошибка в процессе обработки данных |
 
 #### События
 
@@ -254,10 +254,10 @@ SiteContent \DocumentManager::undelete(
 
 #### Исключения
 
-| исключение                                            | описание                                         |
-| ----------------------------------------------------- | ------------------------------------------------ |
-| `\EvolutionCMS\Exceptions\ServiceValidationException` | если переданы плохие данные в `$documentData`    |
-| `\EvolutionCMS\Exceptions\ServiceActionException`     | если возникла ошибка в процессе обработки данных |
+| исключение                                            | описание                                    |
+| ----------------------------------------------------- | ------------------------------------------- |
+| `\EvolutionCMS\Exceptions\ServiceValidationException` | переданы плохие данные в `$documentData`    |
+| `\EvolutionCMS\Exceptions\ServiceActionException`     | возникла ошибка в процессе обработки данных |
 
 #### События
 
@@ -314,10 +314,10 @@ SiteContent \DocumentManager::duplicate(
 
 #### Исключения
 
-| исключение                                            | описание                                         |
-| ----------------------------------------------------- | ------------------------------------------------ |
-| `\EvolutionCMS\Exceptions\ServiceValidationException` | если переданы плохие данные в $documentData      |
-| `\EvolutionCMS\Exceptions\ServiceActionException`     | если возникла ошибка в процессе обработки данных |
+| исключение                                            | описание                                    |
+| ----------------------------------------------------- | ------------------------------------------- |
+| `\EvolutionCMS\Exceptions\ServiceValidationException` | переданы плохие данные в $documentData      |
+| `\EvolutionCMS\Exceptions\ServiceActionException`     | возникла ошибка в процессе обработки данных |
 
 #### События
 
@@ -374,10 +374,10 @@ SiteContent \DocumentManager::setGroups(
 
 #### Исключения
 
-| исключение                                            | описание                                         |
-| ----------------------------------------------------- | ------------------------------------------------ |
-| `\EvolutionCMS\Exceptions\ServiceValidationException` | если переданы плохие данные в `$documentData`    |
-| `\EvolutionCMS\Exceptions\ServiceActionException`     | если возникла ошибка в процессе обработки данных |
+| исключение                                            | описание                                    |
+| ----------------------------------------------------- | ------------------------------------------- |
+| `\EvolutionCMS\Exceptions\ServiceValidationException` | переданы плохие данные в `$documentData`    |
+| `\EvolutionCMS\Exceptions\ServiceActionException`     | возникла ошибка в процессе обработки данных |
 
 #### События
 
@@ -434,10 +434,10 @@ SiteContent \DocumentManager::publish(
 
 #### Исключения
 
-| исключение                                            | описание                                         |
-| ----------------------------------------------------- | ------------------------------------------------ |
-| `\EvolutionCMS\Exceptions\ServiceValidationException` | если переданы плохие данные в $documentData      |
-| `\EvolutionCMS\Exceptions\ServiceActionException`     | если возникла ошибка в процессе обработки данных |
+| исключение                                            | описание                                    |
+| ----------------------------------------------------- | ------------------------------------------- |
+| `\EvolutionCMS\Exceptions\ServiceValidationException` | переданы плохие данные в $documentData      |
+| `\EvolutionCMS\Exceptions\ServiceActionException`     | возникла ошибка в процессе обработки данных |
 
 #### События
 
@@ -493,10 +493,10 @@ SiteContent \DocumentManager::unpublish(
 
 #### Исключения
 
-| исключение                                            | описание                                         |
-| ----------------------------------------------------- | ------------------------------------------------ |
-| `\EvolutionCMS\Exceptions\ServiceValidationException` | если переданы плохие данные в $documentData      |
-| `\EvolutionCMS\Exceptions\ServiceActionException`     | если возникла ошибка в процессе обработки данных |
+| исключение                                            | описание                                    |
+| ----------------------------------------------------- | ------------------------------------------- |
+| `\EvolutionCMS\Exceptions\ServiceValidationException` | переданы плохие данные в $documentData      |
+| `\EvolutionCMS\Exceptions\ServiceActionException`     | возникла ошибка в процессе обработки данных |
 
 #### События
 
@@ -554,10 +554,10 @@ SiteContent \DocumentManager::clearCart(
 
 #### Исключения
 
-| исключение                                            | описание                                         |
-| ----------------------------------------------------- | ------------------------------------------------ |
-| `\EvolutionCMS\Exceptions\ServiceValidationException` | если переданы плохие данные в $documentData      |
-| `\EvolutionCMS\Exceptions\ServiceActionException`     | если возникла ошибка в процессе обработки данных |
+| исключение                                            | описание                                    |
+| ----------------------------------------------------- | ------------------------------------------- |
+| `\EvolutionCMS\Exceptions\ServiceValidationException` | переданы плохие данные в $documentData      |
+| `\EvolutionCMS\Exceptions\ServiceActionException`     | возникла ошибка в процессе обработки данных |
 
 #### События
 
