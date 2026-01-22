@@ -117,8 +117,8 @@ class DocumentEdit extends DocumentCreate
         }
 
         if ($this->events) {
-            // invoke OnBeforeDocEdit event
-            EvolutionCMS()->invokeEvent("OnBeforeDocEdit", [
+            // invoke OnBeforeDocSave event
+            EvolutionCMS()->invokeEvent("OnBeforeDocSave", [
                 'action' => 'update',
                 'id' => $this->documentData['id'],
                 'documentData' => &$this->documentData,
@@ -141,8 +141,8 @@ class DocumentEdit extends DocumentCreate
         $document->refresh();
 
         if ($this->events) {
-            // invoke OnDocEdit event
-            EvolutionCMS()->invokeEvent("OnDocEdit", [
+            // invoke OnDocSave event
+            EvolutionCMS()->invokeEvent("OnDocSave", [
                 'action' => 'update',
                 'id' => $this->documentData['id'],
                 'document' => $document,

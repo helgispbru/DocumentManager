@@ -80,8 +80,8 @@ SiteContent \DocumentManager::create(
 
 | событие           | передается                                                       |
 | ----------------- | ---------------------------------------------------------------- |
-| `OnBeforeDocEdit` | [ `action` => 'create', `id` => null, `documentData` => &$data ] |
-| `OnDocEdit`       | [ `action` => 'create', `id` => $id, `document` => $document ]   |
+| `OnBeforeDocSave` | [ `action` => 'create', `id` => null, `documentData` => &$data ] |
+| `OnDocSave`       | [ `action` => 'create', `id` => $id, `document` => $document ]   |
 
 Параметры:
 
@@ -141,8 +141,8 @@ SiteContent \DocumentManager::edit(
 
 | событие           | передается                                                                                      |
 | ----------------- | ----------------------------------------------------------------------------------------------- |
-| `OnBeforeDocEdit` | [ `action` => 'update', `id` => $id, `documentData` => &$data, `document` => $document_before ] |
-| `OnDocEdit`       | [ `action` => 'update', `id` => $id, `document` => $document_after ]                            |
+| `OnBeforeDocSave` | [ `action` => 'update', `id` => $id, `documentData` => &$data, `document` => $document_before ] |
+| `OnDocSave`       | [ `action` => 'update', `id` => $id, `document` => $document_after ]                            |
 
 Параметры:
 
