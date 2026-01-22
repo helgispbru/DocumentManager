@@ -119,8 +119,9 @@ class DocumentCreate implements DocumentServiceInterface
         $this->prepareCreateDocument();
 
         if ($this->events) {
-            // invoke OnBeforeDocCreate event
-            EvolutionCMS()->invokeEvent("OnBeforeDocCreate", [
+            // invoke OnBeforeDocEdit event
+            EvolutionCMS()->invokeEvent("OnBeforeDocEdit", [
+                'action' => 'create',
                 'id' => null,
                 'documentData' => &$this->documentData,
             ]);
@@ -147,8 +148,9 @@ class DocumentCreate implements DocumentServiceInterface
         $document->refresh();
 
         if ($this->events) {
-            // invoke OnDocCreate event
-            EvolutionCMS()->invokeEvent("OnDocCreate", [
+            // invoke OnDocEdit event
+            EvolutionCMS()->invokeEvent("OnDocEdit", [
+                'action' => 'create',
                 'id' => $this->documentData['id'],
                 'document' => $document,
             ]);
