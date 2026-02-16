@@ -1,10 +1,10 @@
-<?php namespace EvolutionCMS\DocumentManager\Services\Documents;
+<?php
+namespace EvolutionCMS\DocumentManager\Services\Documents;
 
 use EvolutionCMS\Exceptions\ServiceActionException;
 use EvolutionCMS\Exceptions\ServiceValidationException;
 use EvolutionCMS\Models\SiteContent;
-use EvolutionCMS\Models\SiteTmplvarTemplate;
-use \EvolutionCMS\Models\User;
+use EvolutionCMS\Models\User;
 use Illuminate\Support\Facades\Lang;
 
 class DocumentUnpublish extends DocumentCreate
@@ -62,7 +62,6 @@ class DocumentUnpublish extends DocumentCreate
         $this->documentData = $documentData;
         $this->events = $events;
         $this->cache = $cache;
-
     }
 
     /**
@@ -83,7 +82,6 @@ class DocumentUnpublish extends DocumentCreate
         return [
             'id.required' => Lang::get("global.required_field", ['field' => 'id']),
         ];
-
     }
 
     /**
@@ -97,21 +95,41 @@ class DocumentUnpublish extends DocumentCreate
             throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
         }
 
-
         if (!$this->validate()) {
             $exception = new ServiceValidationException();
             $exception->setValidationErrors($this->validateErrors);
             throw $exception;
         }
 
-        $document = SiteContent::query()->withTrashed()->find($this->documentData['id']);
+        $document = SiteContent::query()
+            ->withTrashed()
+            ->find($this->documentData['id']);
+
+        if ($this->events) {
+            // invoke OnBeforeDocUnpublish event
+            EvolutionCMS()->invokeEvent("OnBeforeDocUnpublish", [
+                'id' => $this->documentData['id'],
+                'document' => $document,
+            ]);
+        }
 
         $document->published = 0;
         $document->publishedby = EvolutionCMS()->getLoginUserID();
+        $document->publishedon = 0;
         $document->save();
+
+        if ($this->events) {
+            // invoke OnDocUnpublish event
+            EvolutionCMS()->invokeEvent("OnDocUnpublish", [
+                'id' => $this->documentData['id'],
+                'document' => $document,
+            ]);
+        }
+
         if ($this->cache) {
             EvolutionCMS()->clearCache('full');
         }
+
         return $document;
     }
 
@@ -122,16 +140,4 @@ class DocumentUnpublish extends DocumentCreate
     {
         return EvolutionCMS()->hasPermission('publish_document');
     }
-
-    /**
-     * @return bool
-     */
-    public function validate(): bool
-    {
-        $validator = \Validator::make($this->documentData, $this->validate, $this->messages);
-        $this->validateErrors = $validator->errors()->toArray();
-        return !$validator->fails();
-    }
-
-
 }
