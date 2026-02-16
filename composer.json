@@ -1,5 +1,5 @@
 {
-  "name": "evocms-services/document-manager",
+  "name": "helgispbru/document-manager",
   "license": "MIT",
   "authors": [
     {
@@ -7,9 +7,7 @@
       "email": "sertious2008.wortk3@gmail.com"
     }
   ],
-  "require": {
-
-  },
+  "require": {},
   "autoload": {
     "psr-4": {
       "EvolutionCMS\\DocumentManager\\": "src"
