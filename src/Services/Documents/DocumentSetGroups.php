@@ -92,7 +92,7 @@ class DocumentSetGroups extends DocumentCreate
      */
     public function process(): \Illuminate\Database\Eloquent\Model
     {
-        $check_permissions = (bool) $this->documentData['check_permissions'] ?? true;
+        $check_permissions = array_key_exists('check_permissions', $this->documentData) ? (bool) $this->documentData['check_permissions'] : true;
 
         if ($check_permissions && !$this->checkRules()) {
             throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
