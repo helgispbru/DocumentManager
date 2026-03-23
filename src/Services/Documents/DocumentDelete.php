@@ -80,7 +80,7 @@ class DocumentDelete extends DocumentCreate
     public function getValidationMessages(): array
     {
         return [
-            'id.required' => Lang::get("global.required_field", ['field' => 'id']),
+            'id.required' => Lang::get('global.required_field', ['field' => 'id']),
         ];
     }
 
@@ -92,7 +92,7 @@ class DocumentDelete extends DocumentCreate
     public function process(): \Illuminate\Database\Eloquent\Model
     {
         if (!$this->checkRules()) {
-            throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
+            throw new ServiceActionException(Lang::get('global.error_no_privileges'));
         }
 
         if (!$this->validate()) {
@@ -111,28 +111,28 @@ class DocumentDelete extends DocumentCreate
 
         foreach ($documentDeleteIds as $deleteId) {
             if (EvolutionCMS()->getConfig('site_start') == $deleteId) {
-                throw new ServiceActionException("Document is 'Site start' and cannot be deleted!");
+                throw new ServiceActionException('Document is \'Site start\' and cannot be deleted!');
             }
 
             if (EvolutionCMS()->getConfig('site_unavailable_page') == $deleteId) {
-                throw new ServiceActionException("Document is used as the 'Site unavailable page' and cannot be deleted!");
+                throw new ServiceActionException('Document is used as the \'Site unavailable page\' and cannot be deleted!');
             }
 
             if (EvolutionCMS()->getConfig('error_page') == $deleteId) {
-                throw new ServiceActionException("Document is used as the 'Site error page' and cannot be deleted!");
+                throw new ServiceActionException('Document is used as the \'Site error page\' and cannot be deleted!');
             }
 
             if (EvolutionCMS()->getConfig('unauthorized_page') == $deleteId) {
-                throw new ServiceActionException("Document is used as the 'Site unauthorized page' and cannot be deleted!");
+                throw new ServiceActionException('Document is used as the \'Site unauthorized page\' and cannot be deleted!');
             }
         }
 
         if ($this->events) {
             // invoke OnBeforeDocDelete event
-            EvolutionCMS()->invokeEvent("OnBeforeDocDelete", [
-                'id' => $this->documentData['id'],
-                'document' => $document,
-                'children' => $children,
+            EvolutionCMS()->invokeEvent('OnBeforeDocDelete', [
+                'id' => &$this->documentData['id'],
+                'document' => &$document,
+                'children' => &$children,
             ]);
         }
 
@@ -149,10 +149,10 @@ class DocumentDelete extends DocumentCreate
 
         if ($this->events) {
             // invoke OnDocDelete event
-            EvolutionCMS()->invokeEvent("OnDocDelete", [
-                'id' => $this->documentData['id'],
-                'document' => $document,
-                'children' => $children,
+            EvolutionCMS()->invokeEvent('OnDocDelete', [
+                'id' => &$this->documentData['id'],
+                'document' => &$document,
+                'children' => &$children,
             ]);
         }
 

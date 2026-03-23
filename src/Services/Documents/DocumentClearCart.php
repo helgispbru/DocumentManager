@@ -107,8 +107,8 @@ class DocumentClearCart extends DocumentCreate
 
         if ($this->events) {
             // invoke OnBeforeEmptyTrash event
-            EvolutionCMS()->invokeEvent("OnBeforeEmptyTrash", [
-                'ids' => $ids,
+            EvolutionCMS()->invokeEvent('OnBeforeEmptyTrash', [
+                'ids' => &$ids,
             ]);
         }
 
@@ -130,8 +130,8 @@ class DocumentClearCart extends DocumentCreate
 
         if ($this->events) {
             // invoke OnEmptyTrash event
-            EvolutionCMS()->invokeEvent("OnEmptyTrash", [
-                'ids' => $ids,
+            EvolutionCMS()->invokeEvent('OnEmptyTrash', [
+                'ids' => &$ids,
             ]);
         }
 

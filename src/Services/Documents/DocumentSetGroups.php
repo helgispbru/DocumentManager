@@ -81,7 +81,7 @@ class DocumentSetGroups extends DocumentCreate
     public function getValidationMessages(): array
     {
         return [
-            'id.required' => Lang::get("global.required_field", ['field' => 'id']),
+            'id.required' => Lang::get('global.required_field', ['field' => 'id']),
         ];
     }
 
@@ -95,7 +95,7 @@ class DocumentSetGroups extends DocumentCreate
         $check_permissions = array_key_exists('check_permissions', $this->documentData) ? (bool) $this->documentData['check_permissions'] : true;
 
         if ($check_permissions && !$this->checkRules()) {
-            throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
+            throw new ServiceActionException(Lang::get('global.error_no_privileges'));
         }
 
         if (!$this->validate()) {
@@ -110,10 +110,10 @@ class DocumentSetGroups extends DocumentCreate
 
         if ($this->events) {
             // invoke OnBeforeDocSetGroups event
-            EvolutionCMS()->invokeEvent("OnBeforeDocSetGroups", [
-                'id' => $this->documentData['id'],
-                'groups' => $this->documentData['document_groups'],
-                'document' => $document,
+            EvolutionCMS()->invokeEvent('OnBeforeDocSetGroups', [
+                'id' => &$this->documentData['id'],
+                'groups' => &$this->documentData['document_groups'],
+                'document' => &$document,
             ]);
         }
 
@@ -167,9 +167,9 @@ class DocumentSetGroups extends DocumentCreate
 
         if ($this->events) {
             // invoke OnDocSetGroups event
-            EvolutionCMS()->invokeEvent("OnDocSetGroups", [
-                'id' => $this->documentData['id'],
-                'document' => $document,
+            EvolutionCMS()->invokeEvent('OnDocSetGroups', [
+                'id' => &$this->documentData['id'],
+                'document' => &$document,
             ]);
         }
 

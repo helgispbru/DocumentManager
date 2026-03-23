@@ -82,7 +82,7 @@ class DocumentDuplicate extends DocumentCreate
     public function getValidationMessages(): array
     {
         return [
-            'id.required' => Lang::get("global.required_field", ['field' => 'id']),
+            'id.required' => Lang::get('global.required_field', ['field' => 'id']),
         ];
     }
 
@@ -94,7 +94,7 @@ class DocumentDuplicate extends DocumentCreate
     public function process(): \Illuminate\Database\Eloquent\Model
     {
         if (!$this->checkRules()) {
-            throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
+            throw new ServiceActionException(Lang::get('global.error_no_privileges'));
         }
 
         if (!$this->validate()) {
@@ -141,8 +141,8 @@ class DocumentDuplicate extends DocumentCreate
         if ($this->events) {
             // invoke OnBeforeDocDuplicate event
             EvolutionCMS()->invokeEvent('OnBeforeDocDuplicate', [
-                'id' => $this->documentData['id'],
-                'document' => $document,
+                'id' => &$this->documentData['id'],
+                'document' => &$document,
             ]);
         }
 
@@ -164,9 +164,9 @@ class DocumentDuplicate extends DocumentCreate
         if ($this->events) {
             // invoke OnDocDuplicate event
             EvolutionCMS()->invokeEvent('OnDocDuplicate', [
-                'id' => $this->documentData['id'],
-                'new_id' => $document->getKey(),
-                'new_document' => $document,
+                'id' => &$this->documentData['id'],
+                'new_id' => &$document->getKey(),
+                'new_document' => &$document,
             ]);
         }
 

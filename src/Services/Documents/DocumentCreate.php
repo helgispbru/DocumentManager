@@ -92,8 +92,8 @@ class DocumentCreate implements DocumentServiceInterface
     public function getValidationMessages(): array
     {
         return [
-            'pagetitle.required' => Lang::get("global.required_field", ['field' => 'pagetitle']),
-            'template.required' => Lang::get("global.required_field", ['field' => 'template']),
+            'pagetitle.required' => Lang::get('global.required_field', ['field' => 'pagetitle']),
+            'template.required' => Lang::get('global.required_field', ['field' => 'template']),
         ];
     }
 
@@ -120,7 +120,7 @@ class DocumentCreate implements DocumentServiceInterface
 
         if ($this->events) {
             // invoke OnBeforeDocSave event
-            EvolutionCMS()->invokeEvent("OnBeforeDocSave", [
+            EvolutionCMS()->invokeEvent('OnBeforeDocSave', [
                 'action' => 'create',
                 'id' => null,
                 'documentData' => &$this->documentData,
@@ -149,10 +149,10 @@ class DocumentCreate implements DocumentServiceInterface
 
         if ($this->events) {
             // invoke OnDocSave event
-            EvolutionCMS()->invokeEvent("OnDocSave", [
+            EvolutionCMS()->invokeEvent('OnDocSave', [
                 'action' => 'create',
-                'id' => $this->documentData['id'],
-                'document' => $document,
+                'id' => &$this->documentData['id'],
+                'document' => &$document,
             ]);
         }
 
@@ -200,7 +200,7 @@ class DocumentCreate implements DocumentServiceInterface
         }
 
         if (isset($this->documentData['pagetitle']) && trim($this->documentData['pagetitle']) == '') {
-            if ($this->documentData['type'] == "reference") {
+            if ($this->documentData['type'] == 'reference') {
                 $this->documentData['pagetitle'] = Lang::get('global.untitled_weblink');
             } else {
                 $this->documentData['pagetitle'] = Lang::get('global.untitled_resource');

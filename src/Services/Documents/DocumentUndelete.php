@@ -80,7 +80,7 @@ class DocumentUndelete extends DocumentCreate
     public function getValidationMessages(): array
     {
         return [
-            'id.required' => Lang::get("global.required_field", ['field' => 'id']),
+            'id.required' => Lang::get('global.required_field', ['field' => 'id']),
         ];
     }
 
@@ -92,7 +92,7 @@ class DocumentUndelete extends DocumentCreate
     public function process(): \Illuminate\Database\Eloquent\Model
     {
         if (!$this->checkRules()) {
-            throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
+            throw new ServiceActionException(Lang::get('global.error_no_privileges'));
         }
 
         if (!$this->validate()) {
@@ -111,10 +111,10 @@ class DocumentUndelete extends DocumentCreate
 
         if ($this->events) {
             // invoke OnBeforeDocUndelete event
-            EvolutionCMS()->invokeEvent("OnBeforeDocUndelete", [
-                'id' => $this->documentData['id'],
-                'document' => $document,
-                'children' => $children,
+            EvolutionCMS()->invokeEvent('OnBeforeDocUndelete', [
+                'id' => &$this->documentData['id'],
+                'document' => &$document,
+                'children' => &$children,
             ]);
         }
 
@@ -130,10 +130,10 @@ class DocumentUndelete extends DocumentCreate
 
         if ($this->events) {
             // invoke OnDocUndelete event
-            EvolutionCMS()->invokeEvent("OnDocUndelete", [
-                'id' => $this->documentData['id'],
-                'document' => $document,
-                'children' => $children,
+            EvolutionCMS()->invokeEvent('OnDocUndelete', [
+                'id' => &$this->documentData['id'],
+                'document' => &$document,
+                'children' => &$children,
             ]);
         }
 

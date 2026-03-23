@@ -86,7 +86,7 @@ class DocumentEdit extends DocumentCreate
     public function getValidationMessages(): array
     {
         return [
-            'id.required' => Lang::get("global.required_field", ['field' => 'id']),
+            'id.required' => Lang::get('global.required_field', ['field' => 'id']),
         ];
     }
 
@@ -118,11 +118,11 @@ class DocumentEdit extends DocumentCreate
 
         if ($this->events) {
             // invoke OnBeforeDocSave event
-            EvolutionCMS()->invokeEvent("OnBeforeDocSave", [
+            EvolutionCMS()->invokeEvent('OnBeforeDocSave', [
                 'action' => 'update',
-                'id' => $this->documentData['id'],
+                'id' => &$this->documentData['id'],
                 'documentData' => &$this->documentData,
-                'document' => $document,
+                'document' => &$document,
             ]);
         }
 
@@ -142,10 +142,10 @@ class DocumentEdit extends DocumentCreate
 
         if ($this->events) {
             // invoke OnDocSave event
-            EvolutionCMS()->invokeEvent("OnDocSave", [
+            EvolutionCMS()->invokeEvent('OnDocSave', [
                 'action' => 'update',
-                'id' => $this->documentData['id'],
-                'document' => $document,
+                'id' => &$this->documentData['id'],
+                'document' => &$document,
             ]);
         }
 
@@ -184,22 +184,22 @@ class DocumentEdit extends DocumentCreate
         }
 
         if ($this->documentData['id'] == EvolutionCMS()->getConfig('site_start') && $this->documentData['published'] == 0) {
-            throw new ServiceActionException("Document is linked to site_start variable and cannot be unpublished!");
+            throw new ServiceActionException('Document is linked to site_start variable and cannot be unpublished!');
         }
         $today = EvolutionCMS()->timestamp();
 
         $this->preparePublicationStatus();
 
-        if ($this->documentData['id'] == EvolutionCMS()->getConfig('site_start') && ($this->documentData['pub_date'] > $today || $this->documentData['unpub_date'] != "0")) {
-            throw new ServiceActionException("Document is linked to site_start variable and cannot have publish or unpublish dates set!");
+        if ($this->documentData['id'] == EvolutionCMS()->getConfig('site_start') && ($this->documentData['pub_date'] > $today || $this->documentData['unpub_date'] != 0)) {
+            throw new ServiceActionException('Document is linked to site_start variable and cannot have publish or unpublish dates set!');
         }
         if ($this->documentData['parent'] == $this->documentData['id']) {
-            throw new ServiceActionException("Document can not be it's own parent!");
+            throw new ServiceActionException('Document can not be it\'s own parent!');
         }
 
         $parents = EvolutionCMS()->getParentIds($this->documentData['parent']);
         if (in_array($this->documentData['id'], $parents)) {
-            throw new ServiceActionException("Document descendant can not be it's parent!");
+            throw new ServiceActionException('Document descendant can not be it\'s parent!');
         }
 
         // check to see document is a folder

@@ -80,7 +80,7 @@ class DocumentPublish extends DocumentCreate
     public function getValidationMessages(): array
     {
         return [
-            'id.required' => Lang::get("global.required_field", ['field' => 'id']),
+            'id.required' => Lang::get('global.required_field', ['field' => 'id']),
         ];
     }
 
@@ -92,7 +92,7 @@ class DocumentPublish extends DocumentCreate
     public function process(): \Illuminate\Database\Eloquent\Model
     {
         if (!$this->checkRules()) {
-            throw new ServiceActionException(\Lang::get('global.error_no_privileges'));
+            throw new ServiceActionException(Lang::get('global.error_no_privileges'));
         }
 
         if (!$this->validate()) {
@@ -107,9 +107,9 @@ class DocumentPublish extends DocumentCreate
 
         if ($this->events) {
             // invoke OnBeforeDocPublish event
-            EvolutionCMS()->invokeEvent("OnBeforeDocPublish", [
-                'id' => $this->documentData['id'],
-                'document' => $document,
+            EvolutionCMS()->invokeEvent('OnBeforeDocPublish', [
+                'id' => &$this->documentData['id'],
+                'document' => &$document,
             ]);
         }
 
@@ -122,9 +122,9 @@ class DocumentPublish extends DocumentCreate
 
         if ($this->events) {
             // invoke OnDocPublish event
-            EvolutionCMS()->invokeEvent("OnDocPublish", [
-                'id' => $this->documentData['id'],
-                'document' => $document,
+            EvolutionCMS()->invokeEvent('OnDocPublish', [
+                'id' => &$this->documentData['id'],
+                'document' => &$document,
             ]);
         }
 

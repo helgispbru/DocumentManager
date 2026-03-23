@@ -75,8 +75,8 @@ class DocumentEmptyTrash implements DocumentServiceInterface
 
         if ($this->events) {
             // invoke OnBeforeEmptyTrash event
-            EvolutionCMS()->invokeEvent("OnBeforeEmptyTrash", [
-                'ids' => $ids,
+            EvolutionCMS()->invokeEvent('OnBeforeEmptyTrash', [
+                'ids' => &$ids,
             ]);
         }
 
@@ -98,8 +98,8 @@ class DocumentEmptyTrash implements DocumentServiceInterface
 
         if ($this->events) {
             // invoke OnEmptyTrash event
-            EvolutionCMS()->invokeEvent("OnEmptyTrash", [
-                'ids' => $ids,
+            EvolutionCMS()->invokeEvent('OnEmptyTrash', [
+                'ids' => &$ids,
             ]);
         }
 
