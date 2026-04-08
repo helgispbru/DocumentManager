@@ -122,7 +122,7 @@ class DocumentEdit extends DocumentCreate
                 'action' => 'update',
                 'id' => &$this->documentData['id'],
                 'documentData' => &$this->documentData,
-                'document' => &$document,
+                'document' => &$document, // allow reassign object
             ]);
         }
 
@@ -145,7 +145,7 @@ class DocumentEdit extends DocumentCreate
             EvolutionCMS()->invokeEvent('OnDocSave', [
                 'action' => 'update',
                 'id' => &$this->documentData['id'],
-                'document' => &$document,
+                'document' => &$document, // allow reassign object
             ]);
         }
 

@@ -109,7 +109,7 @@ class DocumentUnpublish extends DocumentCreate
             // invoke OnBeforeDocUnpublish event
             EvolutionCMS()->invokeEvent('OnBeforeDocUnpublish', [
                 'id' => &$this->documentData['id'],
-                'document' => &$document,
+                'document' => &$document, // allow reassign object
             ]);
         }
 
@@ -122,7 +122,7 @@ class DocumentUnpublish extends DocumentCreate
             // invoke OnDocUnpublish event
             EvolutionCMS()->invokeEvent('OnDocUnpublish', [
                 'id' => &$this->documentData['id'],
-                'document' => &$document,
+                'document' => &$document, // allow reassign object
             ]);
         }
 

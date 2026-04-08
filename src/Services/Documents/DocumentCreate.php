@@ -152,7 +152,7 @@ class DocumentCreate implements DocumentServiceInterface
             EvolutionCMS()->invokeEvent('OnDocSave', [
                 'action' => 'create',
                 'id' => &$this->documentData['id'],
-                'document' => &$document,
+                'document' => &$document, // allow reassign object
             ]);
         }
 

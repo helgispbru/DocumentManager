@@ -113,7 +113,7 @@ class DocumentSetGroups extends DocumentCreate
             EvolutionCMS()->invokeEvent('OnBeforeDocSetGroups', [
                 'id' => &$this->documentData['id'],
                 'groups' => &$this->documentData['document_groups'],
-                'document' => &$document,
+                'document' => &$document, // allow reassign object
             ]);
         }
 
@@ -169,7 +169,7 @@ class DocumentSetGroups extends DocumentCreate
             // invoke OnDocSetGroups event
             EvolutionCMS()->invokeEvent('OnDocSetGroups', [
                 'id' => &$this->documentData['id'],
-                'document' => &$document,
+                'document' => &$document, // allow reassign object
             ]);
         }
 

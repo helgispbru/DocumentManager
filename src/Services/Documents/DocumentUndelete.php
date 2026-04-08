@@ -113,7 +113,7 @@ class DocumentUndelete extends DocumentCreate
             // invoke OnBeforeDocUndelete event
             EvolutionCMS()->invokeEvent('OnBeforeDocUndelete', [
                 'id' => &$this->documentData['id'],
-                'document' => &$document,
+                'document' => &$document, // allow reassign object
                 'children' => &$children,
             ]);
         }
@@ -132,7 +132,7 @@ class DocumentUndelete extends DocumentCreate
             // invoke OnDocUndelete event
             EvolutionCMS()->invokeEvent('OnDocUndelete', [
                 'id' => &$this->documentData['id'],
-                'document' => &$document,
+                'document' => &$document, // allow reassign object
                 'children' => &$children,
             ]);
         }

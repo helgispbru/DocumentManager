@@ -142,7 +142,7 @@ class DocumentDuplicate extends DocumentCreate
             // invoke OnBeforeDocDuplicate event
             EvolutionCMS()->invokeEvent('OnBeforeDocDuplicate', [
                 'id' => &$this->documentData['id'],
-                'document' => &$document,
+                'document' => &$document, // allow reassign object
             ]);
         }
 
@@ -165,8 +165,8 @@ class DocumentDuplicate extends DocumentCreate
             // invoke OnDocDuplicate event
             EvolutionCMS()->invokeEvent('OnDocDuplicate', [
                 'id' => &$this->documentData['id'],
-                'new_id' => &$document->getKey(),
-                'new_document' => &$document,
+                'new_id' => $document->getKey(),
+                'new_document' => &$document, // allow reassign object
             ]);
         }
 
