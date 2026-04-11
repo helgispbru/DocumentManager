@@ -81,7 +81,6 @@ class DocumentCreate implements DocumentServiceInterface
     public function getValidationRules(): array
     {
         return [
-            'pagetitle' => ['required'],
             'template' => ['required'],
         ];
     }
@@ -92,7 +91,6 @@ class DocumentCreate implements DocumentServiceInterface
     public function getValidationMessages(): array
     {
         return [
-            'pagetitle.required' => Lang::get('global.required_field', ['field' => 'pagetitle']),
             'template.required' => Lang::get('global.required_field', ['field' => 'template']),
         ];
     }
@@ -213,7 +211,7 @@ class DocumentCreate implements DocumentServiceInterface
             } else {
                 $this->documentData['pub_date'] = EvolutionCMS()->toTimeStamp($this->documentData['pub_date']);
 
-                if ($this->documentData['pub_date'] < $this->currentDate) {
+                if ($this->documentData['pub_date'] <= $this->currentDate) {
                     $this->documentData['published'] = 1;
                 } elseif ($this->documentData['pub_date'] > $this->currentDate) {
                     $this->documentData['published'] = 0;
@@ -225,7 +223,7 @@ class DocumentCreate implements DocumentServiceInterface
             } else {
                 $this->documentData['unpub_date'] = EvolutionCMS()->toTimeStamp($this->documentData['unpub_date']);
 
-                if ($this->documentData['unpub_date'] < $this->currentDate) {
+                if ($this->documentData['unpub_date'] <= $this->currentDate) {
                     $this->documentData['published'] = 0;
                 }
             }

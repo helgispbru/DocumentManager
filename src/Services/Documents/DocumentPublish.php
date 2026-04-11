@@ -115,9 +115,14 @@ class DocumentPublish extends DocumentCreate
 
         $document->published = 1;
         $document->publishedby = EvolutionCMS()->getLoginUserID();
-        $document->publishedon = time();
-        $document->save();
+        $document->publishedon = evo()->timestamp();
 
+        if ($document->pub_date > $document->publishedon) {
+            $document->pub_date = 0;
+        }
+        // $document->unpub_date = 0;
+
+        $document->save();
         $document->refresh();
 
         if ($this->events) {

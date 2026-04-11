@@ -116,7 +116,14 @@ class DocumentUnpublish extends DocumentCreate
         $document->published = 0;
         $document->publishedby = EvolutionCMS()->getLoginUserID();
         $document->publishedon = 0;
+
+        // $document->pub_date = 0;
+        if ($document->unpub_date > $document->publishedon) {
+            $document->unpub_date = 0;
+        }
+
         $document->save();
+        $document->refresh();
 
         if ($this->events) {
             // invoke OnDocUnpublish event
